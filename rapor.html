@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Derin Öğrenmenin Sağlıkta Kullanımı</title>
+<style>
+  @page { size: A4; margin: 2.2cm 2cm; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1a1a1a; }
+  h1 { font-size: 22pt; margin: 0 0 6pt; color: #12355b; }
+  h2 { font-size: 15pt; color: #12355b; border-bottom: 2px solid #12355b; padding-bottom: 3pt; margin-top: 20pt; page-break-after: avoid; }
+  h3 { font-size: 12pt; color: #1f4e79; margin-bottom: 4pt; page-break-after: avoid; }
+  p { margin: 5pt 0; text-align: justify; }
+  ul { margin: 4pt 0 6pt; padding-left: 20pt; }
+  li { margin: 2pt 0; }
+  table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 10pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #9fb3c8; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #e3ecf5; }
+  .kapak { height: 24cm; display: flex; flex-direction: column; justify-content: center; text-align: center; page-break-after: always; }
+  .kapak h1 { font-size: 26pt; }
+  .kapak .alt { font-size: 14pt; color: #444; margin-bottom: 40pt; }
+  .kapak table { width: 60%; margin: 0 auto; font-size: 11pt; }
+  .kapak td { border: none; border-bottom: 1px dotted #999; padding: 8pt; }
+  .akis { display: flex; align-items: center; justify-content: space-between; margin: 10pt 0; page-break-inside: avoid; }
+  .kutu { border: 1.5px solid #1f4e79; border-radius: 6pt; padding: 6pt; width: 17%; text-align: center; font-size: 9pt; background: #f2f7fc; }
+  .ok { font-size: 14pt; color: #1f4e79; }
+  .not { background: #f6f6f6; border-left: 4px solid #1f4e79; padding: 6pt 10pt; margin: 8pt 0; font-size: 10.5pt; }
+  .kaynak li { font-size: 9.5pt; margin: 3pt 0; }
+</style>
+</head>
+<body>
+
+<div class="kapak">
+  <h1>Derin Öğrenmenin Gerçek Dünya Problemlerinde Kullanımı</h1>
+  <div class="alt">Seçilen Alan: <b>Sağlık</b> — Röntgen, MR ve Tomografi Görüntülerinden Hastalık Tespiti</div>
+  <table>
+    <tr><td><b>Ad Soyad</b></td><td></td></tr>
+    <tr><td><b>Öğrenci No</b></td><td></td></tr>
+    <tr><td><b>Ders / Program</b></td><td>Turkcell Geleceği Yazanlar – Derin Öğrenme Giriş</td></tr>
+    <tr><td><b>Tarih</b></td><td>Kasım 2026</td></tr>
+  </table>
+</div>
+
+<h2>Giriş</h2>
+<p>Derin öğrenme, çok katmanlı yapay sinir ağlarının büyük miktarda veriden kendi kendine özellik çıkarmayı öğrendiği bir makine öğrenmesi yöntemidir. 2012'de AlexNet'in ImageNet yarışmasını büyük farkla kazanmasıyla görüntü tanımada hızla yaygınlaştı. Bu yaygınlaşmanın üç temel sebebi büyük veri setlerinin oluşması, GPU'ların sağladığı hesaplama gücü ve daha iyi algoritmalardır (ReLU, dropout, batch normalization gibi). Bu raporda derin öğrenmenin en çok fayda sağladığı alanlardan biri olan <b>tıbbi görüntülerden hastalık tespiti</b> incelenmektedir.</p>
+
+<h2>1. Problem Nedir?</h2>
+<p>Hastanelerde her gün çok sayıda röntgen, bilgisayarlı tomografi (BT) ve manyetik rezonans (MR) görüntüsü çekilir. Bu görüntülerin her birinin bir radyolog tarafından incelenip raporlanması gerekir. Çözülmeye çalışılan problem, bu görüntülerdeki hastalık belirtilerini (akciğerde zatürre veya nodül, beyinde kanama veya tümör, memede kitle, gözde retinopati vb.) <b>hızlı, doğru ve tutarlı</b> şekilde tespit etmektir.</p>
+<h3>Bu problem neden önemlidir?</h3>
+<ul>
+  <li><b>İş yükü:</b> Görüntü sayısı radyolog sayısından çok daha hızlı artıyor. Raporların gecikmesi tedavinin gecikmesi demektir.</li>
+  <li><b>Zaman kritik durumlar:</b> Beyin kanaması veya inme gibi durumlarda dakikalar önemlidir; acil vakaların sıranın en önüne alınması hayat kurtarır.</li>
+  <li><b>İnsan hatası:</b> Yorgunluk ve dikkat dağınıklığı nedeniyle küçük bulgular gözden kaçabilir. Aynı görüntüye farklı uzmanlar farklı yorum yapabilir.</li>
+  <li><b>Erişim eşitsizliği:</b> Kırsal bölgelerde ve gelişmekte olan ülkelerde uzman radyolog bulmak zordur.</li>
+  <li><b>Erken teşhis:</b> Kanser gibi hastalıklarda erken teşhis hayatta kalma oranını ciddi şekilde artırır.</li>
+</ul>
+
+<h2>2. Derin Öğrenme Neden Kullanılıyor?</h2>
+<h3>Geleneksel yöntemler</h3>
+<p>Derin öğrenmeden önce bu iş iki şekilde yapılıyordu:</p>
+<ul>
+  <li><b>Tamamen insan gözüyle:</b> Radyolog görüntüyü tek tek inceler. Doğru ama yavaş ve kişiden kişiye değişen sonuçlar verir.</li>
+  <li><b>Klasik bilgisayar destekli tespit (CAD) sistemleri:</b> Mühendisler "kenar", "doku", "parlaklık", "şekil" gibi özellikleri <i>elle tasarlar</i>, ardından SVM veya karar ağacı gibi klasik makine öğrenmesi algoritmaları bu özellikler üzerinden karar verirdi. Bu sistemler özellikle mamografide çok yanlış alarm üretiyordu ve her yeni hastalık için özelliklerin baştan tasarlanması gerekiyordu.</li>
+</ul>
+<h3>Derin öğrenmenin avantajları</h3>
+<ul>
+  <li><b>Otomatik özellik öğrenme:</b> Evrişimli sinir ağları (CNN) hangi desenlerin önemli olduğunu ham pikselden kendisi öğrenir. İlk katmanlar kenar ve dokuları, derin katmanlar organ ve lezyon şekillerini öğrenir.</li>
+  <li><b>Yüksek doğruluk:</b> Bazı görevlerde uzman hekim seviyesine ulaşmıştır (bkz. Bölüm 5).</li>
+  <li><b>Hız ve tutarlılık:</b> Bir görüntüyü saniyeler içinde analiz eder, yorulmaz, aynı girdiye her zaman aynı cevabı verir.</li>
+  <li><b>Ölçeklenebilirlik:</b> Aynı model binlerce hastanede aynı anda kullanılabilir.</li>
+  <li><b>Transfer öğrenme:</b> Milyonlarca normal fotoğrafla önceden eğitilmiş bir model, daha az tıbbi görüntüyle yeni bir göreve uyarlanabilir.</li>
+</ul>
+
+<h2>3. Sistem Nasıl Çalışıyor?</h2>
+<div class="akis">
+  <div class="kutu"><b>1. Veri</b><br>Etiketli röntgen / BT / MR</div><div class="ok">➜</div>
+  <div class="kutu"><b>2. Ön işleme</b><br>Boyutlandırma, normalizasyon, artırma</div><div class="ok">➜</div>
+  <div class="kutu"><b>3. Eğitim</b><br>CNN, kayıp fonksiyonu, geri yayılım</div><div class="ok">➜</div>
+  <div class="kutu"><b>4. Doğrulama</b><br>Görülmemiş test verisi</div><div class="ok">➜</div>
+  <div class="kutu"><b>5. Kullanım</b><br>Yeni görüntü → tahmin + ısı haritası</div>
+</div>
+
+<h3>Sisteme hangi veriler giriliyor?</h3>
+<ul>
+  <li><b>Görüntüler:</b> Hastanelerde standart olan <b>DICOM</b> formatındaki röntgen (2B), BT ve MR (3B, kesit kesit) görüntüleri.</li>
+  <li><b>Etiketler:</b> Her görüntü için doğru cevap — örn. "zatürre var/yok", tümörün piksel piksel çizilmiş sınırı (segmentasyon maskesi) veya kutu içine alınmış nodül konumu.</li>
+  <li><b>Ek bilgiler (isteğe bağlı):</b> Yaş, cinsiyet, radyoloji raporu metni.</li>
+</ul>
+
+<h3>Bu veriler nereden elde ediliyor?</h3>
+<ul>
+  <li><b>Hastane arşivleri (PACS):</b> Hastanelerin görüntü arşivleri, hasta kimlik bilgileri silinerek (anonimleştirme) kullanılır.</li>
+  <li><b>Açık veri setleri:</b> NIH ChestX-ray14 (112.120 göğüs röntgeni), Stanford CheXpert (224.316 göğüs röntgeni), MIMIC-CXR, akciğer nodülleri için LIDC-IDRI, beyin tümörü MR'ları için BraTS yarışma veri seti.</li>
+  <li><b>Etiketleme:</b> Uzman radyologlar elle işaretler veya radyoloji raporlarından doğal dil işleme ile otomatik etiket çıkarılır.</li>
+</ul>
+
+<h3>Model bu verilerle nasıl eğitiliyor?</h3>
+<ol>
+  <li><b>Ön işleme:</b> Görüntüler aynı boyuta getirilir (örn. 224×224 piksel) ve parlaklık değerleri normalize edilir.</li>
+  <li><b>Veri artırma:</b> Az veriyle ezberlemeyi önlemek için görüntüler hafifçe döndürülür, kaydırılır, yakınlaştırılır.</li>
+  <li><b>Veri bölme:</b> Veri eğitim (%70), doğrulama (%15) ve test (%15) olarak ayrılır. Aynı hastanın görüntüleri farklı kümelere düşmemelidir.</li>
+  <li><b>İleri yayılım:</b> Görüntü ağdan geçer, model bir tahmin üretir (örn. "%80 zatürre").</li>
+  <li><b>Kayıp hesaplama:</b> Tahmin ile gerçek etiket arasındaki fark ölçülür (sınıflandırmada çapraz entropi, segmentasyonda Dice kaybı).</li>
+  <li><b>Geri yayılım ve optimizasyon:</b> Hata geriye doğru yayılır, Adam veya SGD gibi bir optimizasyon algoritması ağırlıkları hatayı azaltacak yönde günceller.</li>
+  <li>Bu işlem binlerce görüntü üzerinde, doğrulama başarısı artmayı bırakana kadar defalarca (epoch) tekrarlanır.</li>
+</ol>
+
+<h3>Modelin çıktısı nedir?</h3>
+<ul>
+  <li><b>Sınıflandırma:</b> Her hastalık için bir olasılık (örn. zatürre: 0,87, plevral efüzyon: 0,12).</li>
+  <li><b>Tespit:</b> Lezyonun etrafında bir kutu ve güven skoru.</li>
+  <li><b>Segmentasyon:</b> Tümörün veya organın piksel piksel sınırları; buradan hacim ölçümü yapılabilir.</li>
+  <li><b>Isı haritası (Grad-CAM):</b> Modelin karar verirken görüntünün hangi bölgesine baktığını gösterir; hekimin modele güvenmesini kolaylaştırır.</li>
+</ul>
+
+<h3>Sistem yeni bir veriyle karşılaştığında nasıl tahmin yapıyor?</h3>
+<p>Eğitim bittiğinde ağırlıklar sabitlenir. Yeni bir hastanın görüntüsü geldiğinde eğitimdeki ön işleme adımlarının aynısı uygulanır ve görüntü ağdan yalnızca <b>bir kez ileri yönde</b> geçirilir (çıkarım / inference). Model, eğitimde öğrendiği desenlere benzerlik üzerinden olasılıklar üretir. Bir eşik değeri (örn. 0,5) aşılırsa vaka "şüpheli" olarak işaretlenir ve radyologun okuma listesinde öne alınır. Son kararı her zaman hekim verir; model bir <b>karar destek aracıdır</b>.</p>
+
+<h2>4. Hangi Teknolojiler Kullanılıyor?</h2>
+<table>
+  <tr><th>Tür</th><th>Örnekler</th><th>Ne işe yarar?</th></tr>
+  <tr><td>Sınıflandırma modelleri (CNN)</td><td>ResNet, DenseNet, EfficientNet</td><td>"Bu görüntüde hastalık var mı?" sorusunu cevaplar.</td></tr>
+  <tr><td>Segmentasyon modelleri</td><td>U-Net, 3B U-Net, nnU-Net</td><td>Tümör veya organın sınırlarını piksel düzeyinde çizer.</td></tr>
+  <tr><td>Nesne tespiti</td><td>Faster R-CNN, YOLO, RetinaNet</td><td>Nodül veya kırık gibi bulguların yerini kutu ile gösterir.</td></tr>
+  <tr><td>Transformer tabanlı modeller</td><td>Vision Transformer (ViT), Swin Transformer</td><td>Görüntüyü parçalara bölüp parçalar arası ilişkiyi öğrenir.</td></tr>
+  <tr><td>Kütüphaneler</td><td>PyTorch, TensorFlow / Keras, <b>MONAI</b></td><td>Model kurma ve eğitme. MONAI, tıbbi görüntülemeye özel açık kaynak PyTorch kütüphanesidir.</td></tr>
+  <tr><td>Yardımcı araçlar</td><td>pydicom, SimpleITK, OpenCV, NumPy</td><td>DICOM okuma, 3B görüntü işleme, ön işleme.</td></tr>
+  <tr><td>Donanım</td><td>NVIDIA GPU'lar, CUDA</td><td>Eğitimi CPU'ya göre kat kat hızlandırır.</td></tr>
+</table>
+
+<h3>Örnek teknoloji: U-Net</h3>
+<p>U-Net, 2015 yılında Ronneberger ve arkadaşları tarafından biyomedikal görüntü segmentasyonu için geliştirilmiştir. Adını "U" harfine benzeyen yapısından alır:</p>
+<ul>
+  <li><b>Kodlayıcı (sol kol):</b> Evrişim ve havuzlama katmanlarıyla görüntüyü küçültür, "ne var?" bilgisini çıkarır.</li>
+  <li><b>Kod çözücü (sağ kol):</b> Görüntüyü tekrar büyütür, "nerede?" bilgisini geri kazanır.</li>
+  <li><b>Atlama bağlantıları (skip connections):</b> Sol koldaki ayrıntılı bilgiyi doğrudan sağ kola aktarır; böylece tümör sınırları keskin çizilir.</li>
+</ul>
+<p>U-Net az sayıda etiketli görüntüyle bile iyi sonuç verdiği için tıpta standart hâline gelmiştir. Bunu otomatik ayarlayan <b>nnU-Net</b> sürümü pek çok uluslararası segmentasyon yarışmasında üst sıralarda yer almıştır.</p>
+
+<h2>5. Gerçek Dünyadan Örnekler</h2>
+<h3>Örnek 1: CheXNet — Göğüs röntgeninden zatürre tespiti (Stanford Üniversitesi, 2017)</h3>
+<p>Stanford'daki araştırmacılar 121 katmanlı bir <b>DenseNet</b> modelini, NIH'nin yayınladığı ve 14 farklı hastalık için etiketlenmiş 112.120 göğüs röntgeninden oluşan ChestX-ray14 veri setiyle eğitti. Model bir röntgen alıp her hastalık için olasılık üretiyor, ayrıca ısı haritasıyla şüpheli bölgeyi gösteriyordu. Zatürre tespitinde modelin performansı, karşılaştırıldığı dört radyoloğun ortalamasından daha iyi bir F1 skoru elde etti. Bu çalışma, tek bir CNN'in büyük bir açık veri setiyle uzman düzeyine yaklaşabileceğini gösteren önemli örneklerden biri oldu.</p>
+
+<h3>Örnek 2: Google Health — Mamografide meme kanseri taraması (Nature, 2020)</h3>
+<p>Google Health, ABD ve İngiltere'den on binlerce kadının mamografi görüntüleriyle bir derin öğrenme sistemi eğitti. Sistem, her mamografi için kanser olasılığı veren birden fazla modelin birleşiminden oluşuyordu. Sonuçlar Nature dergisinde yayımlandı: Sistem, radyologlara kıyasla yanlış pozitifleri (gereksiz alarm) ABD'de %5,7, İngiltere'de %1,2; yanlış negatifleri (gözden kaçan kanser) ABD'de %9,4, İngiltere'de %2,7 oranında azalttı. İngiltere'de her mamografiyi iki radyolog okuduğu için, sistemin "ikinci okuyucu" olarak kullanılmasıyla iş yükünün önemli ölçüde azalabileceği gösterildi.</p>
+
+<h3>Örnek 3: DeepMind ve Moorfields Göz Hastanesi — OCT taramaları (Nature Medicine, 2018)</h3>
+<p>Bu sistem iki aşamalı çalışır: Önce bir <b>3B U-Net</b> göz taramasındaki dokuları segmente ederek bir "doku haritası" çıkarır, ardından ikinci bir ağ bu haritadan 50'den fazla göz hastalığı için teşhis ve "acil / rutin sevk" önerisi üretir. Haritayı ara adım olarak kullanmak, farklı marka cihazlara uyarlamayı kolaylaştırır ve hekime modelin neye baktığını gösterir. Sistemin sevk kararları uzman göz doktorlarının seviyesine ulaştı.</p>
+
+<h3>Örnek 4: IDx-DR — İlk otonom yapay zekâ teşhis sistemi (2018)</h3>
+<p>ABD Gıda ve İlaç Dairesi (FDA) 2018'de, diyabetik retinopati taraması yapan IDx-DR sistemine onay verdi. Bu, bir uzmanın görüntüyü yorumlamasına gerek kalmadan sonuç veren ilk yapay zekâ teşhis cihazıdır. Aile hekimi muayenehanesinde göz dibi fotoğrafı çekilir, sistem "göz doktoruna sevk et" veya "12 ay sonra tekrar tara" sonucunu verir.</p>
+
+<h2>6. Avantajlar ve Sınırlılıklar</h2>
+<h3>Sağladığı faydalar</h3>
+<ul>
+  <li>Acil vakaları önceliklendirerek teşhis süresini kısaltır.</li>
+  <li>Radyologların iş yükünü azaltır; uzmanlar zor vakalara daha çok zaman ayırır.</li>
+  <li>Gözden kaçabilecek küçük bulguları yakalayarak erken teşhise yardım eder.</li>
+  <li>Uzmanı olmayan bölgelere tarama hizmeti götürür.</li>
+  <li>Tümör hacmi gibi ölçümleri otomatik ve tutarlı yapar.</li>
+</ul>
+<h3>Hangi durumlarda başarısız olabilir?</h3>
+<ul>
+  <li><b>Farklı hastane / cihaz:</b> Bir hastanenin verisiyle eğitilen model, başka marka cihazla çekilmiş görüntülerde başarısı düşebilir (dağılım kayması). Zech ve arkadaşlarının 2018 çalışmasında, zatürre modelinin hastalığın kendisinden çok görüntünün hangi hastaneden geldiğini ele veren işaretleri öğrendiği ve başka hastanelerde performansının düştüğü gösterilmiştir.</li>
+  <li><b>Nadir hastalıklar:</b> Eğitimde az görülen durumlarda model zayıftır.</li>
+  <li><b>Kısayol öğrenme:</b> Model, röntgendeki yazı, işaret veya göğüs tüpü gibi alakasız ipuçlarını öğrenebilir.</li>
+  <li><b>Kara kutu problemi:</b> Modelin neden o kararı verdiği her zaman net değildir.</li>
+  <li><b>Kasıtlı saldırılar:</b> Görüntüye insan gözünün fark edemeyeceği küçük değişiklikler eklenerek modelin yanlış karar vermesi sağlanabilir (adversarial örnekler).</li>
+</ul>
+<h3>Veri kalitesi sonuçları nasıl etkiler?</h3>
+<p>Derin öğrenmede "çöp girerse çöp çıkar" kuralı geçerlidir. Otomatik olarak raporlardan çıkarılan etiketlerde hata olabilir, bu hatalar doğrudan modele öğretilir. Veri seti yalnızca belli bir yaş grubundan, cinsiyetten veya etnik kökenden oluşuyorsa model diğer gruplarda daha kötü çalışır (önyargı). Az veriyle eğitilen model ezberler (aşırı öğrenme). Bu nedenle verinin <b>miktarı, çeşitliliği ve etiket doğruluğu</b> en az model mimarisi kadar önemlidir.</p>
+<h3>Güvenlik, gizlilik ve etik sorunlar</h3>
+<ul>
+  <li><b>Gizlilik:</b> Sağlık verileri Türkiye'de 6698 sayılı KVKK'ya, Avrupa'da GDPR'a göre "özel nitelikli kişisel veri"dir. Veriler anonimleştirilmeli ve izinsiz paylaşılmamalıdır.</li>
+  <li><b>Sorumluluk:</b> Model yanlış teşhis koyarsa sorumlu kim olacak — hekim mi, hastane mi, yazılım şirketi mi?</li>
+  <li><b>Önyargı ve adalet:</b> Bazı hasta gruplarında daha kötü çalışan bir model sağlıkta eşitsizliği artırabilir.</li>
+  <li><b>Aşırı güven:</b> Hekimlerin modele körü körüne güvenmesi (otomasyon yanlılığı) hatalara yol açabilir.</li>
+  <li><b>Siber güvenlik:</b> Hastane sistemlerine sızılarak veriler çalınabilir veya model manipüle edilebilir.</li>
+</ul>
+
+<h2>7. Gelecek Potansiyeli</h2>
+<ul>
+  <li><b>Temel modeller (foundation models):</b> Milyonlarca tıbbi görüntüyle önceden eğitilip birçok farklı göreve az veriyle uyarlanabilen büyük modeller yaygınlaşacak.</li>
+  <li><b>Çok modlu sistemler:</b> Görüntüyü, hasta geçmişini, laboratuvar sonuçlarını ve genetik veriyi birlikte yorumlayan modeller daha bütüncül teşhis sunacak.</li>
+  <li><b>Otomatik rapor taslağı:</b> Görüntü ve dil modellerini birleştiren sistemler radyoloji raporunun ilk taslağını yazacak, hekim yalnızca kontrol edip onaylayacak.</li>
+  <li><b>Federe öğrenme:</b> Hastaneler verilerini dışarı çıkarmadan ortak bir modeli birlikte eğitecek; böylece hem gizlilik korunacak hem de veri çeşitliliği artacak.</li>
+  <li><b>Erken risk tahmini:</b> Model yalnızca bugünkü hastalığı değil, birkaç yıl içinde hastalık gelişme riskini de tahmin edecek.</li>
+  <li><b>Taşınabilir cihazlar:</b> Cep telefonuna bağlanan ultrason probları gibi ucuz cihazlarda çalışan modeller, köylerde ve afet bölgelerinde teşhisi mümkün kılacak.</li>
+</ul>
+<p>Bence yapay zekâ radyologların yerini almayacak; ancak yapay zekâ kullanan hekimler, kullanmayanlara göre daha hızlı ve daha doğru çalışacak. En önemli gelişmenin teknik başarıdan çok <b>güvenilirlik, açıklanabilirlik ve yasal düzenlemeler</b> alanında olması gerekiyor.</p>
+
+<h2>8. Kendi Fikrim: "AcilBT" — Beyin Tomografisinde Kanama Önceliklendirme Sistemi</h2>
+<h3>Hangi problemi çözecek?</h3>
+<p>Türkiye'de özellikle gece saatlerinde ve küçük şehirlerdeki devlet hastanelerinde acil serviste çekilen beyin BT'lerini hemen yorumlayacak bir radyolog bulunmayabilir; görüntüler uzaktan raporlama sırasına girer. Beyin kanaması (intrakraniyal hemoraji) olan bir hastanın sırada beklemesi kalıcı hasara veya ölüme yol açabilir. AcilBT, çekilen her beyin BT'sini saniyeler içinde analiz ederek <b>kanama şüphesi olan vakaları okuma listesinin en üstüne taşıyacak</b> ve nöbetçi hekime anında bildirim gönderecek.</p>
+<h3>Hangi verilere ihtiyaç duyacak?</h3>
+<ul>
+  <li>Kontrastsız beyin BT görüntüleri (DICOM, 3B kesitler).</li>
+  <li>Her görüntü için radyolog etiketi: kanama var/yok, kanama tipi (epidural, subdural, subaraknoid, intraparankimal, intraventriküler) ve kanamanın sınırları.</li>
+  <li>Başlangıç için açık veri seti olarak RSNA Intracranial Hemorrhage Detection yarışma verisi; ardından Türkiye'deki farklı hastanelerden (farklı cihaz markaları, yaş grupları) KVKK'ya uygun şekilde anonimleştirilmiş veriler.</li>
+  <li>Etik kurul izni ve hastane iş birliği.</li>
+</ul>
+<h3>Nasıl çalışacak?</h3>
+<ol>
+  <li>BT cihazı görüntüyü hastanenin PACS sistemine gönderir; AcilBT görüntüyü otomatik alır.</li>
+  <li><b>Ön işleme:</b> Görüntüler "beyin penceresi" ve "kan penceresi" ayarlarıyla normalize edilir, kafatası dışı kısımlar kırpılır.</li>
+  <li><b>Model 1 – Sınıflandırma:</b> Her kesit için EfficientNet tabanlı bir CNN kanama olasılığı ve tipini tahmin eder; kesitler arası ilişki için tüm kesit sonuçları küçük bir sıralı modelle (LSTM veya transformer) birleştirilir.</li>
+  <li><b>Model 2 – Segmentasyon:</b> Kanama şüphesi varsa 3B U-Net kanamanın sınırlarını çizer ve <b>hacmini mL cinsinden</b> hesaplar (hacim, ameliyat kararında önemlidir).</li>
+  <li><b>Çıktı:</b> Vaka "KIRMIZI – acil", "SARI – şüpheli" veya "YEŞİL – rutin" olarak etiketlenir. Kırmızı vakalarda nöbetçi hekime ve beyin cerrahına anında bildirim gider. Hekim ekranında ısı haritası ve hacim bilgisi görünür.</li>
+  <li><b>Geri bildirim döngüsü:</b> Radyologun nihai raporu sisteme geri döner; model periyodik olarak yeni ve hatalı tahmin edilen vakalarla yeniden eğitilir. Farklı hastanelerin verisi paylaşılmadan federe öğrenme kullanılabilir.</li>
+</ol>
+<div class="not"><b>Başarı ölçütü:</b> Kaçırılan kanama sayısını en aza indirmek için sistemin <b>duyarlılığı (sensitivity) çok yüksek</b> tutulacak (örn. %95+). Bunun bedeli biraz daha fazla yanlış alarm olacaktır; ama sistem teşhis koymadığı, yalnızca sıralamayı değiştirdiği için yanlış alarmın zararı düşüktür. Nihai karar her zaman radyologa aittir.</div>
+
+<h2>Sonuç</h2>
+<p>Derin öğrenme, tıbbi görüntülerden hastalık tespitinde elle tasarlanan özelliklere dayalı eski sistemlerin çok ötesine geçmiştir. CheXNet, Google'ın mamografi çalışması, DeepMind'ın göz hastalıkları sistemi ve FDA onaylı IDx-DR gibi örnekler, bu teknolojinin laboratuvardan hastaneye taşındığını göstermektedir. Ancak modelin başarısı büyük ölçüde verinin kalitesine ve çeşitliliğine bağlıdır; farklı hastanelerde test edilmemiş, açıklanabilir olmayan veya önyargılı bir model hastalar için risk oluşturur. Doğru kullanıldığında derin öğrenme hekimin yerini almaz, onun en güçlü yardımcısı olur.</p>
+
+<h2>Kaynakça</h2>
+<ol class="kaynak">
+  <li>Turkcell Geleceği Yazanlar, "Derin Öğrenme Giriş" eğitimi. https://gelecegiyazanlar.turkcell.com.tr/egitimler/derin-ogrenme/derin-ogrenme-giris</li>
+  <li>Krizhevsky, A., Sutskever, I., Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. NeurIPS.</li>
+  <li>Ronneberger, O., Fischer, P., Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation. MICCAI.</li>
+  <li>Wang, X. vd. (2017). ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks. CVPR.</li>
+  <li>Rajpurkar, P. vd. (2017). CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning. arXiv:1711.05225.</li>
+  <li>Irvin, J. vd. (2019). CheXpert: A Large Chest Radiograph Dataset with Uncertainty Labels and Expert Comparison. AAAI.</li>
+  <li>De Fauw, J. vd. (2018). Clinically applicable deep learning for diagnosis and referral in retinal disease. Nature Medicine, 24, 1342–1350.</li>
+  <li>McKinney, S. M. vd. (2020). International evaluation of an AI system for breast cancer screening. Nature, 577, 89–94.</li>
+  <li>Abràmoff, M. D. vd. (2018). Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices. npj Digital Medicine, 1, 39.</li>
+  <li>Zech, J. R. vd. (2018). Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs. PLOS Medicine, 15(11).</li>
+  <li>Isensee, F. vd. (2021). nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. Nature Methods, 18, 203–211.</li>
+  <li>Finlayson, S. G. vd. (2019). Adversarial attacks on medical machine learning. Science, 363(6433), 1287–1289.</li>
+  <li>MONAI – Medical Open Network for AI. https://monai.io</li>
+  <li>6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK).</li>
+</ol>
+
+</body>
+</html>
